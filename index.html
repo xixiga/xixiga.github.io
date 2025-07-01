@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星辰之旅：太阳的秘密与行星家族</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 全局样式与宇宙背景 --- */
+        :root {
+            --primary-glow-color: rgba(255, 223, 13, 0.8);
+            --secondary-glow-color: rgba(173, 216, 230, 0.7);
+            --text-color: #f0f8ff;
+            --bg-color: #000010;
+            --card-bg-color: rgba(10, 25, 47, 0.85);
+            --border-color: rgba(173, 216, 230, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(135, 206, 250, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.15) 0%, transparent 40%);
+        }
+
+        /* --- 自定义滚动条 --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #4d5bf9, #2196f3);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #6a7bff, #4caf50);
+        }
+
+        /* --- 动态星空背景 --- */
+        .stars, .stars2, .stars3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .stars {
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 100px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 200px, #fff, rgba(0,0,0,0));
+            background-size: 200px 200px;
+            animation: zoom 15s alternate infinite;
+        }
+
+        .stars2 {
+            background-image:
+                radial-gradient(1px 1px at 50px 120px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 110px 80px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 70px 50px, #fff, rgba(0,0,0,0));
+            background-size: 300px 300px;
+            animation: zoom 25s alternate infinite;
+        }
+        
+        .stars3 {
+            background-image:
+                radial-gradient(1px 1px at 10px 200px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 180px 180px, #ddd, rgba(0,0,0,0));
+            background-size: 400px 400px;
+            animation: zoom 35s alternate infinite;
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2); }
+        }
+
+        /* --- 主容器与标题 --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--primary-glow-color), 0 0 40px var(--primary-glow-color);
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ffdd77, 0 0 40px #ffdd77, 0 0 50px #ffdd77;
+            }
+        }
+
+        /* --- “太阳有多圆”板块 --- */
+        .sun-section {
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0 80px 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 223, 13, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sun-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255, 193, 7, 0.5), transparent 30%);
+            animation: rotate 6s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sun-section .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg-color); /* To cover the rotating gradient inside */
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .sun-section h2 {
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .sun-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+        }
+
+        .sun-section .highlight {
+            color: #ffc107;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* --- 行星介绍标题 --- */
+        .planets-title {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--text-color);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .planets-title::after {
+            content: '';
+            display: block;
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-glow-color), var(--secondary-glow-color));
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- 行星卡片网格 --- */
+        .planet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .planet-card {
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .planet-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 0 25px var(--secondary-glow-color);
+        }
+
+        .planet-card img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .planet-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .planet-card .subtitle {
+            font-size: 1rem;
+            color: var(--secondary-glow-color);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .planet-card p {
+            font-size: 0.95rem;
+            text-align: left;
+            color: #ccc;
+        }
+
+        /* --- 行星特定颜色光晕 --- */
+        #mercury:hover { box-shadow: 0 0 25px #b0a091; }
+        #venus:hover { box-shadow: 0 0 25px #f0e68c; }
+        #earth:hover { box-shadow: 0 0 25px #4682b4; }
+        #mars:hover { box-shadow: 0 0 25px #ff4500; }
+        #jupiter:hover { box-shadow: 0 0 25px #deb887; }
+        #saturn:hover { box-shadow: 0 0 25px #f5deb3; }
+        #uranus:hover { box-shadow: 0 0 25px #afeeee; }
+        #neptune:hover { box-shadow: 0 0 25px #1e90ff; }
+
+        /* --- 页脚 --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+            color: #aaa;
+        }
+
+        /* --- 响应式设计 --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .sun-section h2 { font-size: 2rem; }
+            .planets-title { font-size: 2.2rem; }
+            .container { width: 95%; padding: 20px 10px; }
+            .planet-card h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 星空背景 -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <div class="container">
+        <header>
+            <h1>星辰之旅</h1>
+        </header>
+
+        <main>
+            <section class="sun-section">
+                <div class="content-wrapper">
+                    <h2>太阳到底有多圆？</h2>
+                    <p>
+                        答案是：<span class="highlight">太阳是已知自然界中最接近完美球体的物体之一！</span>
+                        它的圆度超乎想象。如果我们将太阳缩小到一个标准沙滩球的大小，那么它的最高点和最低点之间的差异，将比人类头发的厚度还要小。
+                    </p>
+                    <p>
+                        从数据上看，太阳的赤道直径约为1,392,700公里，而极地直径仅比赤道直径小约10公里。这意味着它的扁率（赤 道半径与极地半径之差除以赤道半径）仅为百万分之九左右。相比之下，地球由于自转速度更快，扁率要大得多，大约是三百分之一。      
+                    </p>
+                    <p>
+                        所以，下次当你仰望太阳（请务必佩戴专业护具！），你可以自豪地告诉身边的人：你正在注视着一个近乎完美的宇宙火球。
+                    </p>
+                </div>
+            </section>
+
+            <h2 class="planets-title">邂逅行星家族</h2>
+
+            <div class="planet-grid">
+                <!-- 水星 -->
+                <div class="planet-card" id="mercury">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Mercury_in_color_-_Prockter07-edit1.jpg/600px-Mercury_in_color_-_Prockter07-edit1.jpg" alt="水星">
+                    <h3>水星 <span class="subtitle">Mercury</span></h3>
+                    <p>作为离太阳最近的行星，水星是个极端的世界。它没有大气层来保温，导致其向阳面温度高达430°C，而背阳面则骤降至-180°C。它也是太阳系中最小的行星，表面布满了类似月球的陨石坑。</p>
+                </div>
+
+                <!-- 金星 -->
+                <div class="planet-card" id="venus">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Venus-real_color.jpg/600px-Venus-real_color.jpg" alt="金星">
+                    <h3>金星 <span class="subtitle">Venus</span></h3>
+                    <p>金星是夜空中最亮的“星星”之一，但其美丽的外表下隐藏着地狱般的环境。它被浓厚的二氧化碳大气和硫酸云所笼 罩，强烈的温室效应使其表面温度高达465°C，甚至超过了水星，是太阳系中最热的行星。</p>
+                </div>
+
+                <!-- 地球 -->
+                <div class="planet-card" id="earth">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/600px-The_Earth_seen_from_Apollo_17.jpg" alt="地球">
+                    <h3>地球 <span class="subtitle">Earth</span></h3>
+                    <p>我们珍贵的家园，是目前已知唯一存在生命的星球。它拥有液态水、适宜的大气和稳定的气候，这一切共同孕育了 丰富多彩的生命形态。从太空看去，它是一颗美丽的蓝色星球，充满生机与希望。</p>
+                </div>
+
+                <!-- 火星 -->
+                <div class="planet-card" id="mars">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/600px-OSIRIS_Mars_true_color.jpg" alt="火星">
+                    <h3>火星 <span class="subtitle">Mars</span></h3>
+                    <p>这颗“红色星球”因其土壤富含氧化铁而呈现出独特的锈红色。火星拥有太阳系中最高的火山（奥林帕斯山）和最长 的峡谷（水手谷）。科学家们一直在探索火星上是否存在过生命，使其成为人类太空探索的重点目标。</p>
+                </div>
+
+                <!-- 木星 -->
+                <div class="planet-card" id="jupiter">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg/600px-Jupiter_and_its_shrunken_Great_Red_Spot.jpg" alt="木星">
+                    <h3>木星 <span class="subtitle">Jupiter</span></h3>
+                    <p>太阳系的巨无霸，其质量是其他所有行星总和的两倍多。木星是一个气态巨行星，没有固体表面。它最著名的特征 是“大红斑”——一个已经持续了数百年的巨大风暴，其大小足以容纳两三个地球。</p>
+                </div>
+
+                <!-- 土星 -->
+                <div class="planet-card" id="saturn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Saturn_during_Equinox.jpg/600px-Saturn_during_Equinox.jpg" alt="土星">
+                    <h3>土星 <span class="subtitle">Saturn</span></h3>
+                    <p>土星以其壮观的行星环而闻名于世。这些由无数冰块和岩石颗粒组成的环带，在太阳光的照射下熠熠生辉，使其成 为太阳系中最具辨识度的天体之一。和木星一样，它也是一个巨大的气态行星。</p>
+                </div>
+
+                <!-- 天王星 -->
+                <div class="planet-card" id="uranus">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Uranus2.jpg/600px-Uranus2.jpg" alt="天王星">
+                    <h3>天王星 <span class="subtitle">Uranus</span></h3>
+                    <p>天王星是一颗冰巨行星，以其独特的“躺着”自转的方式而著称。它的自转轴几乎与公转轨道面平行，这意味着它的 两极会分别经历长达42年的白昼和黑夜。其淡蓝色的外观源于大气中的甲烷。</p>
+                </div>
+
+                <!-- 海王星 -->
+                <div class="planet-card" id="neptune">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Neptune_Full.jpg/600px-Neptune_Full.jpg" alt="海王星">
+                    <h3>海王星 <span class="subtitle">Neptune</span></h3>
+                    <p>作为距离太阳最远的行星，海王星是一个寒冷而黑暗的世界。它拥有太阳系中最猛烈的风暴，风速可达每小时2100 公里。它深邃的蓝色同样来自于大气中的甲烷，但比天王星的颜色更深、更鲜艳。</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>探索永无止境 | 宇宙的奥秘等待着我们去发现</p>
+            <p>&copy; 2024 星辰之旅导览. All rights reserved.</p>
+        </footer>
+
+    </div>
+</body>
+</html>
